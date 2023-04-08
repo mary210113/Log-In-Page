@@ -1,10 +1,14 @@
+import 'package:arts/screens/loadingpage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../Controller/logincontroller.dart';
 import '../Controller/routes.dart';
 
 class MyLogIn extends StatelessWidget {
-  const MyLogIn({Key? key}) : super(key: key);
+  final controller = Get.put(loginController());
+   MyLogIn({Key? key}) : super(key: key);
+  
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +50,8 @@ class MyLogIn extends StatelessWidget {
                       )),
                   Container(
                     padding: const EdgeInsets.all(10),
-                    child: const TextField(
+                    child: TextField(
+                      controller: controller.userName,
                       decoration: InputDecoration(
                         hintText: "UserName",
                         border: OutlineInputBorder(),
@@ -58,7 +63,8 @@ class MyLogIn extends StatelessWidget {
                     // ignore: prefer_const_constructors
 
                     padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    child: const TextField(
+                    child:  TextField(
+                      controller: controller.password,
                       obscureText: true,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
@@ -92,7 +98,7 @@ class MyLogIn extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {
                             //signup screen
-                            Get.toNamed(Routes.LIST);
+                            Get.toNamed(Routes.HOME);
                           },
                           style: ElevatedButton.styleFrom(
                               elevation: 0,
@@ -104,40 +110,23 @@ class MyLogIn extends StatelessWidget {
                           ),
                         )),
                   ),
-                  Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.all(10),
-                      child: const Text(
-                        'Not Registered Yet?',
-                        style: TextStyle(fontSize: 15, color: Colors.black),
-                      )),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                        height: 50,
-                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                        clipBehavior: Clip.antiAlias,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            gradient: const LinearGradient(colors: [
-                              Color.fromARGB(255, 180, 44, 204),
-                              Colors.indigo,
-                              Colors.cyan
-                            ])),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            //signup screen
-                            Get.toNamed(Routes.SIGNUP);
-                          },
-                          style: ElevatedButton.styleFrom(
-                              elevation: 0,
-                              backgroundColor: Colors.transparent,
-                              shadowColor: Colors.transparent),
-                          child: const Text(
-                            'Sign In',
-                            style: TextStyle(fontSize: 18, color: Colors.white),
-                          ),
-                        )),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Not Registered Yet?",
+                        style: TextStyle(fontSize: 17, color: Colors.black),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Get.toNamed(Routes.SIGNUP);
+                        },
+                        child: const Text(
+                          'Sign Up.',
+                          style: TextStyle(fontSize: 17, color: Colors.purple),
+                        ),
+                      )
+                    ],
                   ),
                 ]))));
   }

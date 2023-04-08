@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:arts/Controller/client_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,6 +8,7 @@ import '../Controller/routes.dart';
 
 class MySignUp extends StatelessWidget {
   bool value1 = false;
+  final controller = Get.put(ClientController());
 
   MySignUp({super.key});
   @override
@@ -42,9 +44,22 @@ class MySignUp extends StatelessWidget {
                       ),
                       Container(
                         padding: const EdgeInsets.all(10),
-                        child: const TextField(
+                        child: TextField(
+                          controller: controller.userName,
                           decoration: InputDecoration(
-                            hintText: "Email",
+                            hintText: "UserName",
+                            border: OutlineInputBorder(),
+                            labelText: 'UserName',
+                          ),
+                        ),
+                      ),
+                      Container(
+                        // ignore: prefer_const_constructors
+
+                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                        child: TextField(
+                          controller: controller.email,
+                          decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: 'Email',
                           ),
@@ -54,23 +69,12 @@ class MySignUp extends StatelessWidget {
                         // ignore: prefer_const_constructors
 
                         padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                        child: const TextField(
+                        child: TextField(
+                          controller: controller.password,
                           obscureText: true,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: 'Enter Password',
-                          ),
-                        ),
-                      ),
-                      Container(
-                        // ignore: prefer_const_constructors
-
-                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                        child: const TextField(
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Confirm Password',
+                            labelText: 'Password',
                           ),
                         ),
                       ),
@@ -120,7 +124,10 @@ class MySignUp extends StatelessWidget {
                             child: ElevatedButton(
                               onPressed: () {
                                 //signup screen
-                                Get.toNamed(Routes.SIGNUP);
+                                controller.createClient(
+                                    name: controller.userName.text.trim(),
+                                    email: controller.email.text.trim(),
+                                    password: controller.password.text.trim());
                               },
                               style: ElevatedButton.styleFrom(
                                   elevation: 0,
@@ -135,38 +142,22 @@ class MySignUp extends StatelessWidget {
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const <Widget>[
-                          Text('Have account Already?'),
+                        children: [
+                          const Text(
+                            "Registered Already?",
+                            style: TextStyle(fontSize: 17, color: Colors.black),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Get.toNamed(Routes.LOGIN);
+                            },
+                            child: const Text(
+                              'Log In',
+                              style:
+                                  TextStyle(fontSize: 17, color: Colors.pink),
+                            ),
+                          )
                         ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                            height: 50,
-                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                gradient: const LinearGradient(colors: [
-                                  Color.fromARGB(255, 180, 44, 204),
-                                  Colors.indigo,
-                                  Colors.cyan
-                                ])),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                //signup screen
-                                Get.toNamed(Routes.LOGIN);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  elevation: 0,
-                                  backgroundColor: Colors.transparent,
-                                  shadowColor: Colors.transparent),
-                              child: const Text(
-                                'Log In',
-                                style: TextStyle(
-                                    fontSize: 18, color: Colors.white),
-                              ),
-                            )),
                       ),
                     ],
                   ),
